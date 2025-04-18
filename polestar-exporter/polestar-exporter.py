@@ -186,8 +186,7 @@ def main():
             except Exception as e:
                 logger.error(f"Error in update cycle: {e}")
             
-            # Sleep a short time to prevent rapid cycling if there are immediate errors
-            time.sleep(1)
+            time.sleep(interval)
     except KeyboardInterrupt:
         logger.info("Exporter stopped by user")
     finally:
