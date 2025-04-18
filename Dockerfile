@@ -10,12 +10,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY polestar-exporter/ .
 
 # Environment variables with defaults
-ENV POLESTAR_PORT=9000
-ENV POLESTAR_INTERVAL=60
+ENV POLESTAR_EXPORTER_PORT=9000
+ENV POLESTAR_EXPORTER_INTERVAL=60
 # Required environment variables (to be provided at runtime):
-# ENV POLESTAR_USERNAME=your-username
-# ENV POLESTAR_PASSWORD=your-password
-# ENV POLESTAR_VIN=your-vehicle-vin
+# ENV POLESTAR_EXPORTER_USERNAME=your-username
+# ENV POLESTAR_EXPORTER_PASSWORD=your-password
+# ENV POLESTAR_EXPORTER_VIN=your-vehicle-vin
 
 # Expose the metrics port
 EXPOSE ${POLESTAR_PORT}

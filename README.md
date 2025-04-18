@@ -24,16 +24,16 @@ docker build -t polestar-exporter .
 docker run -d \
   --name polestar-exporter \
   -p 9000:9000 \
-  -e POLESTAR_USERNAME='your-polestar-username' \
-  -e POLESTAR_PASSWORD='your-polestar-password' \
-  -e POLESTAR_VIN='your-vehicle-vin' \
+  -e POLESTAR_EXPORTER_USERNAME='your-polestar-username' \
+  -e POLESTAR_EXPORTER_PASSWORD='your-polestar-password' \
+  -e POLESTAR_EXPORTER_VIN='your-vehicle-vin' \
   polestar-exporter
 ```
 
 ### Optional environment variables
 
-- `POLESTAR_PORT`: Port to expose metrics on (default: 9000)
-- `POLESTAR_INTERVAL`: Scrape interval in seconds (default: 60)
+- `POLESTAR_EXPORTER_PORT`: Port to expose metrics on (default: 9000)
+- `POLESTAR_EXPORTER_INTERVAL`: Scrape interval in seconds (default: 60)
 
 Example with custom settings:
 
@@ -41,11 +41,11 @@ Example with custom settings:
 docker run -d \
   --name polestar-exporter \
   -p 9123:9123 \
-  -e POLESTAR_USERNAME='your-polestar-username' \
-  -e POLESTAR_PASSWORD='your-polestar-password' \
-  -e POLESTAR_VIN='your-vehicle-vin' \
-  -e POLESTAR_PORT=9123 \
-  -e POLESTAR_INTERVAL=120 \
+  -e POLESTAR_EXPORTER_USERNAME='your-polestar-username' \
+  -e POLESTAR_EXPORTER_PASSWORD='your-polestar-password' \
+  -e POLESTAR_EXPORTER_VIN='your-vehicle-vin' \
+  -e POLESTAR_EXPORTER_PORT=9123 \
+  -e POLESTAR_EXPORTER_INTERVAL=120 \
   polestar-exporter
 ```
 
@@ -72,9 +72,9 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - POLESTAR_USERNAME=your-polestar-username
-      - POLESTAR_PASSWORD=your-polestar-password
-      - POLESTAR_VIN=your-vehicle-vin
+      - POLESTAR_EXPORTER_USERNAME=your-polestar-username
+      - POLESTAR_EXPORTER_PASSWORD=your-polestar-password
+      - POLESTAR_EXPORTER_VIN=your-vehicle-vin
     restart: unless-stopped
 ```
 
