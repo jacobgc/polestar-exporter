@@ -1,2 +1,2 @@
 prometheus-client>=0.21.1
-pypolestar>=1.7.2
+pypolestar>=1.8.0
