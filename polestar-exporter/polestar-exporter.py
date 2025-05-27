@@ -3,6 +3,7 @@ import asyncio
 import time
 import logging
 import os
+import traceback
 from prometheus_client import start_http_server, Gauge, Info
 from pypolestar import PolestarApi
 
@@ -48,9 +49,11 @@ health_warnings = Info('polestar_health_warnings', 'Health warnings from the veh
 async def update_metrics(api: PolestarApi, VIN: str):
     """Update all metrics with fresh data from the API."""
     try:
-        await api.update_latest_data(vin=VIN, update_telematics=True, update_battery=False, update_odometer=False)
+        await api.update_latest_data(vin=VIN, update_telematics=False)
+        logger.error("UPDATED API DATA")
         # Get vehicle information
         car_info_data = api.get_car_information(VIN)
+        logger.error(f"Retrieved car information for VIN {VIN}: {car_info_data}")
         if car_info_data:
             car_info.labels(VIN).info({
                 'registration_no': car_info_data.registration_no or '',
@@ -78,6 +81,7 @@ async def update_metrics(api: PolestarApi, VIN: str):
                 if car_info_data.battery_information.cells:
                     car_battery_cells.labels(VIN).set(car_info_data.battery_information.cells)
 
+        logger.info("Metrics updated successfully")
         # Get telemetry data
         telemetry_data = api.get_car_telematics(VIN)
         if telemetry_data:
@@ -141,6 +145,7 @@ async def update_metrics(api: PolestarApi, VIN: str):
         logger.info("Metrics updated successfully")
     except Exception as e:
         logger.error(f"Error updating metrics: {e}")
+        logger.error(f"Exception details: {traceback.format_exc()}")
 
 
 def main():
@@ -185,6 +190,7 @@ def main():
                 logger.warning("Update metrics operation timed out, continuing to next cycle")
             except Exception as e:
                 logger.error(f"Error in update cycle: {e}")
+                logger.error(f"Exception details: {traceback.format_exc()}")
             
             time.sleep(interval)
     except KeyboardInterrupt:
